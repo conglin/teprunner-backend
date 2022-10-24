@@ -24,6 +24,10 @@ SECRET_KEY = '&_*8f-)+lcs2=0mm+b9*=_91wt9i^li7p%h0$2zzw%453q4!1_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+JENKINS_URL = 'http://192.168.50.11:8028'
+JENKINS_USER = "build"
+JENKINS_TOKEN = "11505669581b159a09881fb0fc0bb0a555"
+JENKINS_PASSWD = "666qiangjing"
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'teprunner.apps.TeprunnerConfig',
     'channels',  # websocket
     'django_apscheduler',
+    "rest_framework"
 ]
 
 MIDDLEWARE = [

@@ -9,7 +9,7 @@
 
 from django.urls import path
 
-from teprunner.views import project, envvar, fixture, case, run, plan
+from teprunner.views import project, envvar, fixture, case, run, plan, jenkins
 
 urlpatterns = [
     # ------------------项目增删改查开始------------------
@@ -65,6 +65,10 @@ urlpatterns = [
     # ------------------用例增删改查开始------------------
     path(r"cases/<int:pk>/copy", case.copy_case),  # 复制用例
     path(r"cases/<int:pk>/run", run.run_case),  # 运行用例
+    #jenkins
+    path(r"jenkins/get-jobs", jenkins.get_jobs),  # 复制用例
+    path(r"jenkins/build-job", jenkins.build_job),  # 复制用例
+
 
     path(r"plans", plan.PlanViewSet.as_view({
         "get": "list",
