@@ -76,7 +76,7 @@ python manage.py loaddata user
 数据准备好了，执行以下命令，启动后端服务：
 
 ```
-python manage.py runserver
+python3 manage.py runserver 8001
 ```
 
 启动成功后，确保前端服务也已解决启动成功后，就可以打开`localhost:8080`，输入用户名`admin`，密码`qa123456`登录测试平台体验啦。
