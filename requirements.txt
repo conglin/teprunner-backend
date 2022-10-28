@@ -7,3 +7,6 @@ channels==3.0.3
 django-apscheduler==0.5.2
 python-jenkins
 kerberos
+pytest
+playwright
+pytest-playwright
