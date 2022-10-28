@@ -1,4 +1,70 @@
-from django.test import TestCase
+# from django.test import TestCase
+from playwright.sync_api import Page
+from playwright.sync_api import Playwright, sync_playwright, expect
+
+def test_visit_home_page(page: Page):
+    page.goto("https://reta-inc.com/")
+
+    page.get_by_text("功能介绍").click()
+
+    page.locator("span:has-text(\"用户评价\")").click()
+
+    page.get_by_role("menuitem", name="功能介绍").click()
+
+    page.locator("span:has-text(\"应用下载\")").click()
+
+    page.locator("span:has-text(\"用户评价\")").click()
+
+    page.locator("span:has-text(\"应用下载\")").click()
+
+    page.get_by_placeholder("请输入验证码").click()
+
+    page.get_by_placeholder("请输入验证码").fill("1245")
+
+    page.get_by_placeholder("请输入手机号").click()
+
+    page.get_by_placeholder("请输入手机号").fill("223232")
+
+    # ---------------------
+    # context.close()
+    # browser.close()
+
+# def run(playwright: Playwright) -> None:
+#     # browser = playwright.chromium.launch(headless=False)
+#     # context = browser.new_context()
+
+#     page = context.new_page()
+
+#     page.goto("https://reta-inc.com/")
+
+#     page.get_by_text("功能介绍").click()
+
+#     page.locator("span:has-text(\"用户评价\")").click()
+
+#     page.get_by_role("menuitem", name="功能介绍").click()
+
+#     page.locator("span:has-text(\"应用下载\")").click()
+
+#     page.locator("span:has-text(\"用户评价\")").click()
+
+#     page.locator("span:has-text(\"应用下载\")").click()
+
+#     page.get_by_placeholder("请输入验证码").click()
+
+#     page.get_by_placeholder("请输入验证码").fill("1245")
+
+#     page.get_by_placeholder("请输入手机号").click()
+
+#     page.get_by_placeholder("请输入手机号").fill("223232")
+
+#     # ---------------------
+#     context.close()
+#     browser.close()
+
+
+# with sync_playwright() as playwright:
+#     run(playwright)
+
 
 # # Create your tests here.
 # import jmespath
