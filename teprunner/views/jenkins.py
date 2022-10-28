@@ -20,17 +20,17 @@ from django.conf import settings
 server = jenkins.Jenkins(settings.JENKINS_URL, username=settings.JENKINS_USER, password=settings.JENKINS_PASSWD)
 
 
+# @permission_classes((AllowAny,))
+# @authentication_classes(())
 @api_view(['GET'])
-@permission_classes((AllowAny,))
-@authentication_classes(())
 def get_jobs(request):
     jobs = server.get_jobs()
     return Response({"data": jobs}, status=status.HTTP_200_OK)
 
 
+# @permission_classes((AllowAny,))
+# @authentication_classes(())
 @api_view(['POST'])
-@permission_classes((AllowAny,))
-@authentication_classes(())
 def build_job(request):
     job_name = request.data.get("job_name")
     job_params = request.data.get("job_params")
