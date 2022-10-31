@@ -4,26 +4,50 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 
 def test_visit_home_page(page: Page):
     page.goto("https://reta-inc.com/")
-
     page.get_by_text("功能介绍").click()
-
+    sleep(5)
     page.locator("span:has-text(\"用户评价\")").click()
-
-    page.get_by_role("menuitem", name="功能介绍").click()
-
-    page.locator("span:has-text(\"应用下载\")").click()
-
     page.locator("span:has-text(\"用户评价\")").click()
-
     page.locator("span:has-text(\"应用下载\")").click()
-
-    page.get_by_placeholder("请输入验证码").click()
-
-    page.get_by_placeholder("请输入验证码").fill("1245")
-
     page.get_by_placeholder("请输入手机号").click()
+    page.get_by_placeholder("请输入手机号").fill("1414213")
+    page.locator("div:nth-child(2) > .el-input > .el-input__wrapper").click()
+    page.get_by_placeholder("请输入验证码").fill("312321312")
+    page.get_by_role("button", name="马上注册").click()
 
-    page.get_by_placeholder("请输入手机号").fill("223232")
+ef test_visit_subhome_page(page: Page):
+    page.goto("https://reta-inc.com/")
+    page.get_by_text("功能介绍").click()
+    sleep(5)
+    page.locator("span:has-text(\"用户评价\")").click()
+    page.locator("span:has-text(\"用户评价\")").click()
+    page.locator("span:has-text(\"应用下载\")").click()
+    page.get_by_placeholder("请输入手机号").click()
+    page.get_by_placeholder("请输入手机号").fill("1414213")
+    page.locator("div:nth-child(2) > .el-input > .el-input__wrapper").click()
+    page.get_by_placeholder("请输入验证码").fill("312321312")
+    page.get_by_role("button", name="马上注册").click()
+    # page.goto("https://reta-inc.com/")
+
+    # page.get_by_text("功能介绍").click()
+
+    # page.locator("span:has-text(\"用户评价\")").click()
+
+    # page.get_by_role("menuitem", name="功能介绍").click()
+
+    # page.locator("span:has-text(\"应用下载\")").click()
+
+    # page.locator("span:has-text(\"用户评价\")").click()
+
+    # page.locator("span:has-text(\"应用下载\")").click()
+
+    # page.get_by_placeholder("请输入验证码").click()
+
+    # page.get_by_placeholder("请输入验证码").fill("1245")
+
+    # page.get_by_placeholder("请输入手机号").click()
+
+    # page.get_by_placeholder("请输入手机号").fill("223232")
 
     # ---------------------
     # context.close()
