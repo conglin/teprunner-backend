@@ -2,138 +2,60 @@
 from playwright.sync_api import Page
 from playwright.sync_api import Playwright, sync_playwright, expect
 
-def test_visit_home_page(page: Page):
-    page.goto("https://reta-inc.com/")
-    page.get_by_text("功能介绍").click()
-    sleep(5)
-    page.locator("span:has-text(\"用户评价\")").click()
-    page.locator("span:has-text(\"用户评价\")").click()
-    page.locator("span:has-text(\"应用下载\")").click()
-    page.get_by_placeholder("请输入手机号").click()
-    page.get_by_placeholder("请输入手机号").fill("1414213")
-    page.locator("div:nth-child(2) > .el-input > .el-input__wrapper").click()
-    page.get_by_placeholder("请输入验证码").fill("312321312")
-    page.get_by_role("button", name="马上注册").click()
-
-ef test_visit_subhome_page(page: Page):
-    page.goto("https://reta-inc.com/")
-    page.get_by_text("功能介绍").click()
-    sleep(5)
-    page.locator("span:has-text(\"用户评价\")").click()
-    page.locator("span:has-text(\"用户评价\")").click()
-    page.locator("span:has-text(\"应用下载\")").click()
-    page.get_by_placeholder("请输入手机号").click()
-    page.get_by_placeholder("请输入手机号").fill("1414213")
-    page.locator("div:nth-child(2) > .el-input > .el-input__wrapper").click()
-    page.get_by_placeholder("请输入验证码").fill("312321312")
-    page.get_by_role("button", name="马上注册").click()
-    # page.goto("https://reta-inc.com/")
-
-    # page.get_by_text("功能介绍").click()
-
-    # page.locator("span:has-text(\"用户评价\")").click()
-
-    # page.get_by_role("menuitem", name="功能介绍").click()
-
-    # page.locator("span:has-text(\"应用下载\")").click()
-
-    # page.locator("span:has-text(\"用户评价\")").click()
-
-    # page.locator("span:has-text(\"应用下载\")").click()
-
-    # page.get_by_placeholder("请输入验证码").click()
-
-    # page.get_by_placeholder("请输入验证码").fill("1245")
-
-    # page.get_by_placeholder("请输入手机号").click()
-
-    # page.get_by_placeholder("请输入手机号").fill("223232")
-
-    # ---------------------
-    # context.close()
-    # browser.close()
-
-# def run(playwright: Playwright) -> None:
-#     # browser = playwright.chromium.launch(headless=False)
-#     # context = browser.new_context()
-
-#     page = context.new_page()
-
+# def test_visit_home_page(page: Page):
 #     page.goto("https://reta-inc.com/")
-
 #     page.get_by_text("功能介绍").click()
-
 #     page.locator("span:has-text(\"用户评价\")").click()
-
-#     page.get_by_role("menuitem", name="功能介绍").click()
-
-#     page.locator("span:has-text(\"应用下载\")").click()
-
 #     page.locator("span:has-text(\"用户评价\")").click()
-
 #     page.locator("span:has-text(\"应用下载\")").click()
-
-#     page.get_by_placeholder("请输入验证码").click()
-
-#     page.get_by_placeholder("请输入验证码").fill("1245")
-
 #     page.get_by_placeholder("请输入手机号").click()
+#     page.get_by_placeholder("请输入手机号").fill("1414213")
+#     page.locator("div:nth-child(2) > .el-input > .el-input__wrapper").click()
+#     page.get_by_placeholder("请输入验证码").fill("312321312")
+#     page.get_by_role("button", name="马上注册").click()
+def loginAdmin(page,ticket) -> None:
+    admin='obj-{"id":16,"username":"conglin","email":"conglin@reta-inc.com","mobile":"123","status":0,"roleId":1,"role":{"id":1,"name":"admin","remark":null,"createdBy":null,"createdAt":1664321323000,"modifiedBy":null,"modifiedAt":1664321323000},"customer":null}'
+    page.evaluate(f"""
+                    document.cookie = "ticket={ticket};domain=.minnov.se;path=/"
+                    localStorage.setItem('_user_','{admin}');
+                  """)
 
-#     page.get_by_placeholder("请输入手机号").fill("223232")
+def test_create_account(page: Page) -> None:
 
-#     # ---------------------
-#     context.close()
-#     browser.close()
+    page.goto("http://qa-e.minnov.se/login")
+    # 管理员
+    ticket = "82adfb5e-4ea7-43b0-938e-27f9c59f92b2"
+    loginAdmin(page, ticket)
+    page.goto("http://dev.e.minnov.se:8888/organization/account")
 
+    page.get_by_role("button", name="Create Account").click()
 
-# with sync_playwright() as playwright:
-#     run(playwright)
+    page.locator("input[name=\"username\"]").click()
 
+    page.locator("input[name=\"username\"]").fill("test")
 
-# # Create your tests here.
-# import jmespath
-# from loguru import logger
+    page.get_by_role("dialog", name="Create Account").get_by_role("textbox", name="Please select").click()
 
-# from tep.client import request
-# import requests
+    page.locator("#el-popper-container-5558").get_by_role("list").get_by_text("customer").click()
 
+    page.get_by_placeholder("Please select or fill in").click()
 
-# def test_post(faker_ch, env_vars, login):
-#     # 描述
-#     logger.info("test post")
-#     # 数据
-#     #fake = faker_ch
-#     # 请求
+    page.locator("li:has-text(\"Beijing FESCO Ent Service Group Co\")").click()
 
-#     cookies = {
-#         'p_h5_u': 'B0B5C5A2-81CF-4FE4-8323-841C0B572EDA',
-#         'sensorsdata2015jssdkcross': '%7B%22distinct_id%22%3A%2241%22%2C%22first_id%22%3A%2217e9963bdb8ae3-093e3a033b10ed-133a6253-2073600-17e9963bdb957f%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22identities%22%3A%22eyIkaWRlbnRpdHlfbG9naW5faWQiOiI0MSIsIiRpZGVudGl0eV9jb29raWVfaWQiOiIxN2U5OTYzYmRiOGFlMy0wOTNlM2EwMzNiMTBlZC0xMzNhNjI1My0yMDczNjAwLTE3ZTk5NjNiZGI5NTdmIn0%3D%22%2C%22history_login_id%22%3A%7B%22name%22%3A%22%24identity_login_id%22%2C%22value%22%3A%2241%22%7D%2C%22%24device_id%22%3A%2217e9963bdb8ae3-093e3a033b10ed-133a6253-2073600-17e9963bdb957f%22%7D',
-#     }
+    page.locator("label:has-text(\"Inactive\") span").first.click()
 
-#     headers = {
-#         'Connection': 'keep-alive',
-#         'Accept': 'application/json',
-#         'trace-id': 'l0O3JMuab7dWyvdGSuV_r',
-#         'platform': 'PC',
-#         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
-#         # Already added when you pass json=
-#         # 'Content-Type': 'application/json',
-#         'Origin': 'http://qa-a.reta-inc.com',
-#         'Referer': 'http://qa-a.reta-inc.com/login',
-#         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-#         # Requests sorts cookies= alphabetically
-#         # 'Cookie': 'p_h5_u=B0B5C5A2-81CF-4FE4-8323-841C0B572EDA; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%2241%22%2C%22first_id%22%3A%2217e9963bdb8ae3-093e3a033b10ed-133a6253-2073600-17e9963bdb957f%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22identities%22%3A%22eyIkaWRlbnRpdHlfbG9naW5faWQiOiI0MSIsIiRpZGVudGl0eV9jb29raWVfaWQiOiIxN2U5OTYzYmRiOGFlMy0wOTNlM2EwMzNiMTBlZC0xMzNhNjI1My0yMDczNjAwLTE3ZTk5NjNiZGI5NTdmIn0%3D%22%2C%22history_login_id%22%3A%7B%22name%22%3A%22%24identity_login_id%22%2C%22value%22%3A%2241%22%7D%2C%22%24device_id%22%3A%2217e9963bdb8ae3-093e3a033b10ed-133a6253-2073600-17e9963bdb957f%22%7D',
-#     }
+    page.get_by_text("Active").nth(2).click()
 
-#     json_data = {
-#         'email': 'conglin@reta-inc.com',
-#         'password': 'woodspy',
-#     }
+    page.locator("input[name=\"mobile\"]").click()
 
-#     response = requests.post('http://qa-a.reta-inc.com/qj/v1/auth/token/login/email', headers=headers, cookies=cookies, json=json_data, verify=False)
+    page.locator("input[name=\"mobile\"]").fill("13810264240")
 
-#     # 断言
-#     assert response.status_code < 400
-#     # 提取
-#     print (response.json())
-#     #user_id = jmespath.search("id", response.json())
+    page.locator("input[name=\"email\"]").click()
+
+    page.locator("input[name=\"email\"]").fill("email@fdaf.com")
+
+    page.locator("input[name=\"password\"]").click()
+
+    page.locator("input[name=\"password\"]").fill("123213123")
+
+    page.get_by_role("button", name="Save").click()

@@ -266,7 +266,7 @@ def run_case(request, *args, **kwargs):
         case_id, filepath = newest_case
         delete_case_result(case_id, run_user_nickname)  # 删除历史记录
         os.chdir(tests_dir)
-        cmd = rf"pytest -s {filepath}"  # pytest命令
+        cmd = rf"pytest -s {filepath} --headed"  # pytest命令
         args = (pytest_subprocess, cmd, case_id, run_env, run_user_nickname)  # 运行参数
         thread_pool.submit(*args).add_done_callback(save_case_result)  # 多线程调用与回调
         return Response({"msg": "用例运行成功"}, status=status.HTTP_200_OK)
