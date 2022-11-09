@@ -67,6 +67,7 @@ urlpatterns = [
     path(r"cases/<int:pk>/run", run.run_case),  # 运行用例
     #jenkins
     path(r"jenkins/get-jobs", jenkins.get_jobs),  # 复制用例
+    path(r"jenkins/get-job-params/<str:job_name>", jenkins.get_job_params),  # 复制用例
     path(r"jenkins/build-job", jenkins.build_job),  # 复制用例
 
 

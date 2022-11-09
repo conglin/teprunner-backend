@@ -20,12 +20,25 @@ from django.conf import settings
 server = jenkins.Jenkins(settings.JENKINS_URL, username=settings.JENKINS_USER, password=settings.JENKINS_PASSWD)
 
 
-@permission_classes((AllowAny,))
-@authentication_classes(())
+# @permission_classes((AllowAny,))
+# @authentication_classes(())
 @api_view(['GET'])
 def get_jobs(request):
     jobs = server.get_jobs()
     return Response({"data": jobs}, status=status.HTTP_200_OK)
+
+
+
+# @permission_classes((AllowAny,))
+# @authentication_classes(())
+@api_view(['GET'])
+def get_job_params(request, job_name):
+    info = server.get_job_info(job_name)
+    params = []
+    for item in info['property']:
+        if item['_class'] == 'hudson.model.ParametersDefinitionProperty':
+            params = item['parameterDefinitions']
+    return Response({"data": params}, status=status.HTTP_200_OK)
 
 
 @permission_classes((AllowAny,))
