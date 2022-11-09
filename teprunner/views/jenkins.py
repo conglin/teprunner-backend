@@ -41,8 +41,8 @@ def get_job_params(request, job_name):
     return Response({"data": params}, status=status.HTTP_200_OK)
 
 
-@permission_classes((AllowAny,))
-@authentication_classes(())
+# @permission_classes((AllowAny,))
+# @authentication_classes(())
 @api_view(['POST'])
 def build_job(request):
     job_name = request.data.get("job_name")
