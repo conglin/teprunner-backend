@@ -13,7 +13,8 @@ from playwright.sync_api import Playwright, sync_playwright, expect
 #     page.locator("div:nth-child(2) > .el-input > .el-input__wrapper").click()
 #     page.get_by_placeholder("请输入验证码").fill("312321312")
 #     page.get_by_role("button", name="马上注册").click()
-def loginAdmin(page,ticket) -> None:
+
+def loginAdmin(page, ticket) -> None:
     admin='obj-{"id":16,"username":"conglin","email":"conglin@reta-inc.com","mobile":"123","status":0,"roleId":1,"role":{"id":1,"name":"admin","remark":null,"createdBy":null,"createdAt":1664321323000,"modifiedBy":null,"modifiedAt":1664321323000},"customer":null}'
     page.evaluate(f"""
                     document.cookie = "ticket={ticket};domain=.minnov.se;path=/"
@@ -22,10 +23,12 @@ def loginAdmin(page,ticket) -> None:
 
 def test_create_account(page: Page) -> None:
 
-    page.goto("http://qa-e.minnov.se/login")
+    page.goto("http://dev.e.minnov.se:8888/login")
+    page.wait_for_timeout(1000)
     # 管理员
-    ticket = "82adfb5e-4ea7-43b0-938e-27f9c59f92b2"
+    ticket = "8d0d781d-1aff-4ac8-b631-190688b21fc7"
     loginAdmin(page, ticket)
+    page.wait_for_timeout(1000)
     page.goto("http://dev.e.minnov.se:8888/organization/account")
 
     page.get_by_role("button", name="Create Account").click()
@@ -36,7 +39,12 @@ def test_create_account(page: Page) -> None:
 
     page.get_by_role("dialog", name="Create Account").get_by_role("textbox", name="Please select").click()
 
-    page.locator("#el-popper-container-5558").get_by_role("list").get_by_text("customer").click()
+    page.wait_for_timeout(1000)
+
+
+    page.locator("#el-popper-container-*").get_by_role("list").get_by_text("customer").click()
+    page.wait_for_timeout(1000)
+
 
     page.get_by_placeholder("Please select or fill in").click()
 
